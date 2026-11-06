@@ -1,35 +1,38 @@
 import { collectNews } from "../lib/collector.js";
-import { sendToGoogleSheets } from "../lib/sender.js";
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
+  if (req.method !== "GET" && req.method !== "POST") {
     return res.status(405).json({
       success: false,
-      error: "Metodo non consentito. Usa POST."
+      error: "Metodo non consentito."
     });
   }
 
   const secret = process.env.CRON_SECRET;
   const authorization = req.headers.authorization || "";
 
-  if (!secret || authorization !== `Bearer ${secret}`) {
+  if (secret && authorization !== `Bearer ${secret}`) {
     return res.status(401).json({
       success: false,
-      error: "Non autorizzato"
+      error: "Non autorizzato."
     });
   }
 
   try {
     const data = await collectNews();
-    const sheetsResult = await sendToGoogleSheets(data);
 
     return res.status(200).json({
       success: true,
-      raccolte: data.total,
-      invio_google_sheets: sheetsResult,
-      fonti: data.sources
+      message: "Raccolta completata.",
+      totalNotizieUniche: data.totalNotizieUniche,
+      doppioniRaggruppati: data.doppioniRaggruppati,
+      memoriaPersistenteAttiva: data.memoriaPersistenteAttiva,
+      generatedAt: data.generatedAt,
+      fonti: data.fonti
     });
   } catch (error) {
+    console.error("Errore cron:", error);
+
     return res.status(500).json({
       success: false,
       error: String(error.message || error)
