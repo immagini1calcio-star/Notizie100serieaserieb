@@ -1,24 +1,12 @@
+
 import { collectNews } from "../lib/collector.js";
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {
     return res.status(405).json({
       success: false,
-      error: "Metodo non consentito. Usa GET."
+      error: "Usa il metodo GET"
     });
-  }
-
-  const secret = process.env.API_SECRET;
-
-  if (secret) {
-    const authorization = req.headers.authorization || "";
-
-    if (authorization !== `Bearer ${secret}`) {
-      return res.status(401).json({
-        success: false,
-        error: "Non autorizzato"
-      });
-    }
   }
 
   try {
