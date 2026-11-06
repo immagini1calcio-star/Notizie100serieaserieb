@@ -1,17 +1,14 @@
-
 {
-  "name": "100serieaserieb-football-news",
-  "version": "1.0.0",
-  "private": true,
+  "name": "football-news-collector",
+  "version": "2.0.0",
   "type": "module",
   "engines": {
     "node": ">=20"
   },
-  "scripts": {
-    "start": "node api/index.js"
-  },
   "dependencies": {
+    "@mozilla/readability": "^0.6.0",
     "he": "^1.2.0",
+    "jsdom": "^26.1.0",
     "rss-parser": "^3.13.0"
   }
 }
