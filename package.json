@@ -1,13 +1,16 @@
 {
   "name": "football-news-collector",
-  "version": "2.0.0",
+  "version": "3.0.0",
+  "private": true,
   "type": "module",
   "engines": {
     "node": ">=20"
   },
+  "scripts": {
+    "start": "node api/local.js"
+  },
   "dependencies": {
     "@mozilla/readability": "^0.6.0",
-    "he": "^1.2.0",
     "jsdom": "^26.1.0",
     "rss-parser": "^3.13.0"
   }
